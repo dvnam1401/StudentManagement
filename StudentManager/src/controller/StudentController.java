@@ -10,9 +10,7 @@ import view.StudentView;
 import javax.swing.*;
 
 public class StudentController implements ActionListener {
-    //        private StudentDao studentDao;
     private final StudentView studentView;
-
 
     public StudentController(StudentView studentView) {
         super();
@@ -23,11 +21,12 @@ public class StudentController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String button = e.getActionCommand();
         switch (button) {
-            case "Thêm":
+            case "Thêm" -> {
                 this.studentView.clearInput();
                 System.out.println("Da nhan them");
-                break;
-            case "Lưu":
+            }
+
+            case "Lưu" -> {
                 System.out.println("Da nhan luu");
                 try {
                     this.studentView.getStudentInfo();
@@ -35,8 +34,8 @@ public class StudentController implements ActionListener {
                     System.out.println(exception.getMessage());
                     exception.printStackTrace();
                 }
-                break;
-            case "Cập nhật":
+            }
+            case "Cập nhật" -> {
                 System.out.println("Da nhan cập nhật");
                 try {
                     this.studentView.showListStudents();
@@ -44,8 +43,9 @@ public class StudentController implements ActionListener {
                     System.out.println(exception.getMessage());
                     exception.printStackTrace();
                 }
-                break;
-            case "Xóa":
+            }
+
+            case "Xóa" -> {
                 try {
                     System.out.println("Da nhan xoa");
                     this.studentView.deleteStudent();
@@ -53,8 +53,9 @@ public class StudentController implements ActionListener {
                     System.out.println(exception.getMessage());
                     exception.printStackTrace();
                 }
-                break;
-            case "Hủy bỏ":
+            }
+
+            case "Hủy bỏ" -> {
                 try {
                     System.out.println("Da nhan hủy bỏ");
                     int choose = JOptionPane.showConfirmDialog(new Frame(),
@@ -67,8 +68,9 @@ public class StudentController implements ActionListener {
                     System.out.println(exception.getMessage());
                     exception.printStackTrace();
                 }
-                break;
-            case "Tìm":
+            }
+
+            case "Tìm" -> {
                 try {
                     System.out.println("Dang nhan tìm");
                     this.studentView.searchStudent();
@@ -76,8 +78,9 @@ public class StudentController implements ActionListener {
                     System.out.println(exception.getMessage());
                     exception.printStackTrace();
                 }
-                break;
-            case "Điểm trung bình cao nhất":
+            }
+
+            case "Điểm trung bình cao nhất" -> {
                 System.out.println("Da nhan diem trung binh");
                 Icon icon = new ImageIcon(Toolkit.getDefaultToolkit().
                         createImage(LoginView.class.getResource("/data/imageStudent/smile-lol-icon.png")));
@@ -86,8 +89,9 @@ public class StudentController implements ActionListener {
                         "Inane custom dialog",
                         JOptionPane.INFORMATION_MESSAGE,
                         icon);
-                break;
-            case "Open":
+            }
+
+            case "Open" -> {
                 System.out.println("Da an mo file");
                 try {
                     this.studentView.openFile();
@@ -95,8 +99,9 @@ public class StudentController implements ActionListener {
                     exception.printStackTrace();
                     System.out.println(exception.getMessage());
                 }
-                break;
-            case "Save":
+            }
+
+            case "Save" -> {
                 System.out.println("Da nhan save");
                 try {
                     this.studentView.saveFile();
@@ -104,15 +109,18 @@ public class StudentController implements ActionListener {
                     exception.printStackTrace();
                     System.out.println(exception.getMessage());
                 }
-                break;
-            case "Exit":
+            }
+
+            case "Exit" -> {
                 System.out.println("Da nhan exit");
                 this.studentView.exitProgram();
-                break;
-            case "About me":
+            }
+
+            case "About me" -> {
                 System.out.println("da nhan about me");
-                break;
-            case "Theo lớp":
+            }
+
+            case "Theo lớp" -> {
                 System.out.println("Da nhan xóa sinh viên");
                 try {
                     this.studentView.deleteStudentClass();
@@ -120,15 +128,16 @@ public class StudentController implements ActionListener {
                     System.out.println(exception.getMessage());
                     exception.printStackTrace();
                 }
-                break;
-            case "Mã sinh viên":
+            }
+
+            case "Mã sinh viên" -> {
                 try {
                     System.out.println("Da nhan ma sinh viên");
                     this.studentView.deleteStudentId();
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
-                break;
+            }
         }
     }
 }

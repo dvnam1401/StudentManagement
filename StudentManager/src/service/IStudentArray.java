@@ -2,7 +2,7 @@ package service;
 
 import model.Student;
 
-public interface IStudentArray {
+public interface IStudentArray<E> {
 
     boolean checkID(int idStudent);
     boolean checkName(String name);
@@ -10,7 +10,7 @@ public interface IStudentArray {
     boolean checkPoint(double point);
     void add(Student student);
 
-    Student searchId(int code);
+    E searchId(int code);
 
     void deleteId(int code);
 
@@ -19,5 +19,5 @@ public interface IStudentArray {
 
     boolean searchIdClass(String student, int idSearch);
 
-    Student searchPoint();
+    E searchPoint();
 }

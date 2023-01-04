@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class StudentService implements IStudentArray {
+public class StudentService implements IStudentArray<Student> {
     public static List<Student> studentList = new ArrayList<>();
     private StudentView studentView;
 
