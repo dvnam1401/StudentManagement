@@ -1,5 +1,6 @@
 package service.impl;
 
+import common.AppConstant;
 import model.Student;
 import service.IStudentArray;
 import view.StudentView;
@@ -35,12 +36,13 @@ public class StudentService implements IStudentArray<Student> {
     // tên k được chứa kí tự
     public boolean checkName(String name) {
         name = name.toLowerCase();
-        for (int i = 0; i < name.length() - 1; ++i) {
-            if (Character.isLetter(name.charAt(i)) || (name.charAt(i)) == ' ') {
-                return true;
-            }
-        }
-        return false;
+        return name.matches(AppConstant.REGEXNAME);
+//        for (int i = 0; i < name.length() - 1; ++i) {
+//            if (Character.isLetter(name.charAt(i)) || (name.charAt(i)) == ' ') {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
     @Override

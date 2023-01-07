@@ -347,16 +347,26 @@ public class StudentView extends JFrame {
 
     // kiêm tra mã sinh viên
     private boolean validateId() {
-        try {
-            int id = Integer.parseInt(this.textField_msv.getText());
-        } catch (Exception exception) {
+        boolean result = this.textField_msv.getText().matches(AppConstant.REGEXID);
+        if (result) {
+            return true;
+        } else {
             JOptionPane.showMessageDialog(this,
                     "Student code is not valid.",
                     "Inane error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        return true;
+//        try {
+//            int id = Integer.parseInt(this.textField_msv.getText());
+//        } catch (Exception exception) {
+//            JOptionPane.showMessageDialog(this,
+//                    "Student code is not valid.",
+//                    "Inane error",
+//                    JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
+//        return true;
     }
 
     // kiểm tra sinh viên tồn tại
@@ -395,16 +405,26 @@ public class StudentView extends JFrame {
 
     // kiểm tra ngày sinh
     private boolean validateDayBirth() {
-        try {
-            Date dayBirth = new Date(this.textField_dayBirth.getText());
-        } catch (Exception exception) {
+        boolean result = this.textField_dayBirth.getText().matches(AppConstant.REGEXBIRTHDAY);
+        if (result) {
+            return true;
+        } else {
             JOptionPane.showMessageDialog(this,
                     "Incorrect format dd/MM/yyyy.", //Định dạng không chính xác dd/mm/yyyy
                     "Inane error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        return true;
+//        try {
+//            Date dayBirth = new Date(this.textField_dayBirth.getText());
+//        } catch (Exception exception) {
+//            JOptionPane.showMessageDialog(this,
+//                    "Incorrect format dd/MM/yyyy.", //Định dạng không chính xác dd/mm/yyyy
+//                    "Inane error",
+//                    JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
+//        return true;
     }
 
     // kiểm tra giới tính
