@@ -118,6 +118,12 @@ public class StudentController implements ActionListener {
 
             case "About me" -> {
                 System.out.println("da nhan about me");
+                try {
+                    this.studentView.aboutMe();
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
+                    exception.printStackTrace();
+                }
             }
 
             case "Theo lớp" -> {

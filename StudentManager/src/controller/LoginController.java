@@ -13,11 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class LoginController implements ActionListener {
-    private final UserService userDao;
+    private final UserService userService;
     private final LoginView loginView;
 
     public LoginController(LoginView loginView) {
-        this.userDao = new UserService();
+        this.userService = new UserService();
         this.loginView = loginView;
     }
 
@@ -26,7 +26,7 @@ public class LoginController implements ActionListener {
         String button = e.getActionCommand();
         User user = loginView.getUser();
         if (button.equals("LOGIN")) {
-            if (userDao.checkLogin(user)) {
+            if (userService.checkLogin(user)) {
                 StudentView studentView = new StudentView();
                 StudentService studentService = new StudentService(studentView);
                 studentService.showStudentView();

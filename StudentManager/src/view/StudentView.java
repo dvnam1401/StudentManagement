@@ -395,7 +395,7 @@ public class StudentView extends JFrame {
         String nameStudent = studentService.formatName(this.textField_hvt.getText());
         if (!studentService.checkName(nameStudent)) {
             JOptionPane.showMessageDialog(this,
-                    "The name does not contain numbers or characters.", //tên không được chứa số hoặc kí tự
+                    "Tên không chứa số hoặc ký tự.", //tên không được chứa số hoặc kí tự
                     "Inane error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
@@ -410,7 +410,7 @@ public class StudentView extends JFrame {
             return true;
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Incorrect format dd/MM/yyyy.", //Định dạng không chính xác dd/mm/yyyy
+                    "Định dạng không chính xác dd/mm/yyyy.", //Định dạng không chính xác dd/mm/yyyy
                     "Inane error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
@@ -431,7 +431,7 @@ public class StudentView extends JFrame {
     private boolean validateSex() {
         if (!this.radioButton_nam.isSelected() && !this.radioButton_nu.isSelected()) {
             JOptionPane.showMessageDialog(this,
-                    "Not filled out enough information.", //Không điền đủ thông tin
+                    "Không điền đủ thông tin.", //Không điền đủ thông tin
                     "Inane error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
@@ -457,14 +457,14 @@ public class StudentView extends JFrame {
             double pointAvg = Double.parseDouble(this.textField_diemTB.getText());
             if (!studentService.checkPoint(pointAvg)) {
                 JOptionPane.showMessageDialog(this,
-                        "The right point >= 0 or point <= 10.",
+                        "Điểm phải> = 0 hoặc điểm <= 10.",
                         "Inane error",
                         JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         } catch (Exception exception) {
             JOptionPane.showMessageDialog(this,
-                    "Points do not contain words or characters.",
+                    "Điểm không chứa các từ hoặc ký tự.",
                     "Inane error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
@@ -474,15 +474,25 @@ public class StudentView extends JFrame {
 
     // kiểm tra class
     private boolean validateClass() {
-        String className = this.textField_class.getText();
-        if ("".equals(className)) {
+        boolean result = this.textField_class.getText().matches(AppConstant.REGEXCLASS);
+        if (!result) {
             JOptionPane.showMessageDialog(this,
-                    "Class must not leave empty.",
+                    "Dữ liệu lớp không hợp lệ.",
                     "Inane error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
+        } else {
+            return true;
         }
-        return true;
+//        String className = this.textField_class.getText();
+//        if ("".equals(className)) {
+//            JOptionPane.showMessageDialog(this,
+//                    "Lớp không được để trống.",
+//                    "Inane error",
+//                    JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
+//        return true;
     }
 
     // lấy thông tin từ người nhập .
@@ -624,7 +634,8 @@ public class StudentView extends JFrame {
     public void deleteStudent() {
         DefaultTableModel modelTable = (DefaultTableModel) table_thongTin.getModel();
         int row = table_thongTin.getSelectedRow();
-        int choose = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa sinh viên này không?", "Cảnh báo", JOptionPane.YES_NO_OPTION);
+        int choose = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa sinh viên này không?",
+                "Cảnh báo", JOptionPane.YES_NO_OPTION);
         if (choose == JOptionPane.YES_OPTION) {
             Student student = fillStudentFromSelectedRow();
             this.studentService.deleteStudent(student);
@@ -653,7 +664,7 @@ public class StudentView extends JFrame {
             }
         } catch (Exception exception) {
             JOptionPane.showMessageDialog(this,
-                    "Not filled out enough information.",
+                    "Không điền đủ thông tin.",
                     "Error",
                     JOptionPane.WARNING_MESSAGE);
         }
@@ -662,7 +673,6 @@ public class StudentView extends JFrame {
     // tìm sinh viên có điêm cao nhất đầu tiên
     public String maxAverageScore() {
         Student students = this.studentService.searchPoint();
-//        System.out.println(students.toString());
         return "Sinh viên có điểm cao nhất: " + students.getFullName() + " với điểm trung bình là: " + students.getAverageGrade();
     }
 
@@ -779,5 +789,14 @@ public class StudentView extends JFrame {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    public void aboutMe() {
+        JOptionPane.showMessageDialog(this, "Yêu cầu khi nhập thông tin sinh viên: " +
+                "\n Mã sinh viên: không chứa kí tự và kí tự đặc biệt" +
+                "\n Họ và tên: không được chứa số hoặc kí tự" +
+                "\n Ngày sinh: nhập theo định dạng dd/MM/yyyy" +
+                "\n Lớp: không được chứa kí tự đặc biệt" +
+                "\n Điểm: theo thang điểm 10");
     }
 }
