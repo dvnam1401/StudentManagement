@@ -347,28 +347,44 @@ public class StudentView extends JFrame {
     }
     //</editor-fold>
 
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    private void showMessageERROR(String message, String title) {
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void showMessageWARNING(String message, String title) {
+        JOptionPane.showMessageDialog(this,
+                message,
+                title,
+                JOptionPane.WARNING_MESSAGE);
+    }
+
+    private void showMessageINFOMATION() {
+        JOptionPane.showMessageDialog(this,
+                "Xóa thành công.",
+                "Thông báo",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void showMessagePLAIN(String message, String title) {
+        JOptionPane.showMessageDialog(this,
+                message,
+                title,
+                JOptionPane.PLAIN_MESSAGE);
+    }
+
     //<editor-fold desc="kiêm tra mã sinh viên">
     private boolean validateId() {
         boolean result = this.textField_msv.getText().matches(AppConstant.ID);
         if (result) {
             return true;
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "Student code is not valid.",
-                    "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
+            showMessageERROR("Mã sinh viên không hợp lệ", "Inane error");
             return false;
         }
-//        try {
-//            int id = Integer.parseInt(this.textField_msv.getText());
-//        } catch (Exception exception) {
-//            JOptionPane.showMessageDialog(this,
-//                    "Student code is not valid.",
-//                    "Inane error",
-//                    JOptionPane.ERROR_MESSAGE);
-//            return false;
-//        }
-//        return true;
     }
     //</editor-fold>
 
@@ -397,10 +413,7 @@ public class StudentView extends JFrame {
     private boolean validateName() {
         String nameStudent = studentService.formatName(this.textField_hvt.getText());
         if (!studentService.checkName(nameStudent)) {
-            JOptionPane.showMessageDialog(this,
-                    "Tên không chứa số hoặc ký tự.", //tên không được chứa số hoặc kí tự
-                    "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
+            showMessageERROR("Tên không chứa số hoặc ký tự.", "Inane error");
             return false;
         }
         return true;
@@ -413,46 +426,19 @@ public class StudentView extends JFrame {
         if (result) {
             return true;
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "Định dạng không chính xác dd/mm/yyyy.",
-                    "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
+            showMessageERROR("Định dạng không chính xác dd/mm/yyyy.", "Inane error");
             return false;
         }
-//        try {
-//            Date dayBirth = new Date(this.textField_dayBirth.getText());
-//        } catch (Exception exception) {
-//            JOptionPane.showMessageDialog(this,
-//                    "Incorrect format dd/MM/yyyy.", //Định dạng không chính xác dd/mm/yyyy
-//                    "Inane error",
-//                    JOptionPane.ERROR_MESSAGE);
-//            return false;
-//        }
-//        return true;
     }
     //</editor-fold>
 
     //<editor-fold desc="kiểm tra giới tính">
     private boolean validateSex() {
         if (!this.radioButton_nam.isSelected() && !this.radioButton_nu.isSelected()) {
-            JOptionPane.showMessageDialog(this,
-                    "Chưa chọn giới tính.",
-                    "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
+
+            showMessageERROR("Chưa chọn giới tính.", "Inane error");
             return false;
         }
-        // lấy giới tính
-//        if (!this.radioButton_nam.isSelected()) {
-//            if (this.radioButton_nu.isSelected()) {
-//                return true;
-//            } else {
-//                JOptionPane.showMessageDialog(this,
-//                        "Not filled out enough information.", //Không điền đủ thông tin
-//                        "Inane error",
-//                        JOptionPane.ERROR_MESSAGE);
-//                return false;
-//            }
-//        }
         return true;
     }
     //</editor-fold>
@@ -462,17 +448,13 @@ public class StudentView extends JFrame {
         try {
             double pointAvg = Double.parseDouble(this.textField_diemTB.getText());
             if (!studentService.checkPoint(pointAvg)) {
-                JOptionPane.showMessageDialog(this,
-                        "Điểm phải> = 0 hoặc điểm <= 10.",
-                        "Inane error",
-                        JOptionPane.ERROR_MESSAGE);
+                showMessageERROR("Điểm phải> = 0 hoặc điểm <= 10.",
+                        "Inane error");
                 return false;
             }
         } catch (Exception exception) {
-            JOptionPane.showMessageDialog(this,
-                    "Điểm không chứa các từ hoặc ký tự.",
-                    "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
+            showMessageERROR("Điểm không chứa các từ hoặc ký tự.",
+                    "Inane error");
             return false;
         }
         return true;
@@ -483,23 +465,12 @@ public class StudentView extends JFrame {
     private boolean validateClass() {
         boolean result = this.textField_class.getText().matches(AppConstant.CLASS);
         if (!result) {
-            JOptionPane.showMessageDialog(this,
-                    "Dữ liệu lớp không hợp lệ.",
-                    "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
+            showMessageERROR("Dữ liệu lớp không hợp lệ.",
+                    "Inane error");
             return false;
         } else {
             return true;
         }
-//        String className = this.textField_class.getText();
-//        if ("".equals(className)) {
-//            JOptionPane.showMessageDialog(this,
-//                    "Lớp không được để trống.",
-//                    "Inane error",
-//                    JOptionPane.ERROR_MESSAGE);
-//            return false;
-//        }
-//        return true;
     }
     //</editor-fold>
 
@@ -661,21 +632,15 @@ public class StudentView extends JFrame {
                 Student student = this.studentService.searchId(idSearch);
                 this.loadingTable(student, table_Search);
             } else if (this.studentService.searchIdClass(nameClass, idSearch)) {
-                JOptionPane.showMessageDialog(this,
-                        "Sinh viên có tồn tại.",
-                        "Notification",
-                        JOptionPane.PLAIN_MESSAGE);
+                showMessagePLAIN("Sinh viên có tồn tại.",
+                        "Notification");
             } else {
-                JOptionPane.showMessageDialog(this,
-                        "Sinh viên không tồn tại.",
-                        "Notification",
-                        JOptionPane.PLAIN_MESSAGE);
+                showMessagePLAIN("Sinh viên không tồn tại.",
+                        "Notification");
             }
         } catch (Exception exception) {
-            JOptionPane.showMessageDialog(this,
-                    "Không điền đủ thông tin.",
-                    "Error",
-                    JOptionPane.WARNING_MESSAGE);
+            showMessageWARNING("Không điền đủ thông tin.",
+                    "Error");
         }
     }
 
@@ -710,8 +675,7 @@ public class StudentView extends JFrame {
                     FileUtil.writeFile(file.getAbsolutePath(), StudentService.studentList);
                 }
             }
-            JOptionPane.showMessageDialog(this,
-                    "Lưu thành công");
+            showMessage("Lưu thành công");
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -719,10 +683,8 @@ public class StudentView extends JFrame {
     }
 
     public static void errorPath() {
-        JOptionPane.showMessageDialog(new JFrame(),
-                "Đường dẫn không hợp lệ.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
+        new StudentView().showMessageERROR("Đường dẫn không hợp lệ.",
+                "Error");
     }
 
     public void openFile() {
@@ -756,15 +718,10 @@ public class StudentView extends JFrame {
                 JOptionPane.PLAIN_MESSAGE);
         try {
             if (this.studentService.deleteStudent(nameClass)) {
-                JOptionPane.showMessageDialog(this,
-                        "Xóa thành công",
-                        "Thông báo",
-                        JOptionPane.INFORMATION_MESSAGE);
+                showMessageINFOMATION();
             } else {
-                JOptionPane.showMessageDialog(this,
-                        "Không tìm thấy lớp chỉ định",
-                        "Thông báo",
-                        JOptionPane.WARNING_MESSAGE);
+                showMessageWARNING("Không tìm thấy lớp chỉ định",
+                        "Thông báo");
             }
             this.loadingTable(table_thongTin);
             this.clearTable(table_Search);
@@ -783,15 +740,10 @@ public class StudentView extends JFrame {
         try {
             if (this.studentService.checkID(Integer.parseInt(idStudent))) {
                 this.studentService.deleteId(Integer.parseInt(idStudent));
-                JOptionPane.showMessageDialog(this,
-                        "Xóa thành công.",
-                        "Thông báo",
-                        JOptionPane.INFORMATION_MESSAGE);
+                showMessageINFOMATION();
             } else {
-                JOptionPane.showMessageDialog(this,
-                        "Sinh viên không tồn tại.",
-                        "Thông báo",
-                        JOptionPane.WARNING_MESSAGE);
+                showMessageWARNING("Sinh viên không tồn tại.",
+                        "Thông báo");
             }
             this.loadingTable(table_thongTin);
             this.clearTable(table_Search);
@@ -801,7 +753,7 @@ public class StudentView extends JFrame {
     }
 
     public void aboutMe() {
-        JOptionPane.showMessageDialog(this, "Yêu cầu khi nhập thông tin sinh viên: " +
+        showMessage("Yêu cầu khi nhập thông tin sinh viên: " +
                 "\n Mã sinh viên: không chứa kí tự và kí tự đặc biệt" +
                 "\n Họ và tên: không được chứa số hoặc kí tự" +
                 "\n Ngày sinh: nhập theo định dạng dd/MM/yyyy" +

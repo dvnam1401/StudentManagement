@@ -37,19 +37,14 @@ public class StudentService implements IStudentArray<Student> {
     public boolean checkName(String name) {
         name = name.toLowerCase();
         return name.matches(AppConstant.NAME);
-//        for (int i = 0; i < name.length() - 1; ++i) {
-//            if (Character.isLetter(name.charAt(i)) || (name.charAt(i)) == ' ') {
-//                return true;
-//            }
-//        }
-//        return false;
     }
 
     @Override
     // chỉnh sửa tên về đúng form
     // in hoa chữ cái đầu.
     public String formatName(String nameStudent) {
-        char[] arrayName = nameStudent.toCharArray();
+        String name = nameStudent.trim();
+        char[] arrayName = name.toCharArray();
         boolean flag = true;
         //duyệt các phần tử trong mảng
         for (int i = 0; i < arrayName.length; i++) {
