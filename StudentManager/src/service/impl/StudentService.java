@@ -36,7 +36,7 @@ public class StudentService implements IStudentArray<Student> {
     // tên k được chứa kí tự
     public boolean checkName(String name) {
         name = name.toLowerCase();
-        return name.matches(AppConstant.REGEXNAME);
+        return name.matches(AppConstant.NAME);
 //        for (int i = 0; i < name.length() - 1; ++i) {
 //            if (Character.isLetter(name.charAt(i)) || (name.charAt(i)) == ' ') {
 //                return true;

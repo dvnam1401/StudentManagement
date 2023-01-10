@@ -16,7 +16,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.net.URL;
-import java.util.Date;
 
 public class StudentView extends JFrame {
     private final JButton btnXoa;
@@ -38,6 +37,7 @@ public class StudentView extends JFrame {
     private final JTable table_Search;
     private String path;
 
+    //<editor-fold desc="view">
     public StudentView() {
         ActionListener actionListener = new StudentController(this);
         this.setTitle("STUDENT INFORMATION MANAGEMENT");
@@ -322,7 +322,7 @@ public class StudentView extends JFrame {
         btn_tim.setBounds(68, 459, 230, 42);
         contentPane.add(btn_tim);
 
-        // xet true folse button
+        // xet true false button
         int row = table_thongTin.getSelectedRow();
         if (row < 0) {
             btnXoa.setEnabled(false);
@@ -332,8 +332,9 @@ public class StudentView extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
+    //</editor-fold>
 
-    // xóa toàn bộ thông tin trên mục nhập
+    //<editor-fold desc="xóa toàn bộ thông tin trên mục nhập">
     public void clearInput() {
         this.textField_msv.setEditable(true);
         this.textField_msv.setText("");
@@ -344,10 +345,11 @@ public class StudentView extends JFrame {
         this.btnSex.clearSelection();
         this.btnLuu.setEnabled(true);
     }
+    //</editor-fold>
 
-    // kiêm tra mã sinh viên
+    //<editor-fold desc="kiêm tra mã sinh viên">
     private boolean validateId() {
-        boolean result = this.textField_msv.getText().matches(AppConstant.REGEXID);
+        boolean result = this.textField_msv.getText().matches(AppConstant.ID);
         if (result) {
             return true;
         } else {
@@ -368,9 +370,9 @@ public class StudentView extends JFrame {
 //        }
 //        return true;
     }
+    //</editor-fold>
 
-    // kiểm tra sinh viên tồn tại
-    // cập nhật lại sinh viên theo id
+    //<editor-fold desc="cập nhật lại sinh viên theo id, kiểm tra sinh viên tồn tại">
     private void checkInformation(Student student) {
         if (!studentService.checkID(student.getCode())) {
             this.studentService.add(student);
@@ -389,8 +391,9 @@ public class StudentView extends JFrame {
             }
         }
     }
+    //</editor-fold>
 
-    // lấy thông tin tên, kiểm tra
+    //<editor-fold desc="kiểm tra tính hợp lệ tên">
     private boolean validateName() {
         String nameStudent = studentService.formatName(this.textField_hvt.getText());
         if (!studentService.checkName(nameStudent)) {
@@ -402,15 +405,16 @@ public class StudentView extends JFrame {
         }
         return true;
     }
+    //</editor-fold>
 
-    // kiểm tra ngày sinh
+    //<editor-fold desc="kiểm tra ngày sinh">
     private boolean validateDayBirth() {
-        boolean result = this.textField_dayBirth.getText().matches(AppConstant.REGEXBIRTHDAY);
+        boolean result = this.textField_dayBirth.getText().matches(AppConstant.BIRTHDAY);
         if (result) {
             return true;
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Định dạng không chính xác dd/mm/yyyy.", //Định dạng không chính xác dd/mm/yyyy
+                    "Định dạng không chính xác dd/mm/yyyy.",
                     "Inane error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
@@ -426,12 +430,13 @@ public class StudentView extends JFrame {
 //        }
 //        return true;
     }
+    //</editor-fold>
 
-    // kiểm tra giới tính
+    //<editor-fold desc="kiểm tra giới tính">
     private boolean validateSex() {
         if (!this.radioButton_nam.isSelected() && !this.radioButton_nu.isSelected()) {
             JOptionPane.showMessageDialog(this,
-                    "Không điền đủ thông tin.", //Không điền đủ thông tin
+                    "Chưa chọn giới tính.",
                     "Inane error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
@@ -450,8 +455,9 @@ public class StudentView extends JFrame {
 //        }
         return true;
     }
+    //</editor-fold>
 
-    // kiểm tra giới tính
+    //<editor-fold desc="kiểm tra tính hợp lệ của điêm">
     private boolean validatePoint() {
         try {
             double pointAvg = Double.parseDouble(this.textField_diemTB.getText());
@@ -471,10 +477,11 @@ public class StudentView extends JFrame {
         }
         return true;
     }
+    //</editor-fold>
 
-    // kiểm tra class
+    //<editor-fold desc="kiểm tra class">
     private boolean validateClass() {
-        boolean result = this.textField_class.getText().matches(AppConstant.REGEXCLASS);
+        boolean result = this.textField_class.getText().matches(AppConstant.CLASS);
         if (!result) {
             JOptionPane.showMessageDialog(this,
                     "Dữ liệu lớp không hợp lệ.",
@@ -494,8 +501,9 @@ public class StudentView extends JFrame {
 //        }
 //        return true;
     }
+    //</editor-fold>
 
-    // lấy thông tin từ người nhập .
+    //<editor-fold desc="lấy thông tin từ người nhập">
     public void getStudentInfo() {
         // lấy tên lớp
         if (validateId() && validateName() && validateDayBirth() && validateClass() && validatePoint() && validateSex()) {
@@ -516,6 +524,7 @@ public class StudentView extends JFrame {
             this.btnUpdate.setEnabled(true);
         }
     }
+    //</editor-fold>
 
     // điền thông tin của hàng được chọn từ bảng student
     // vào các trường tương ứng của student.

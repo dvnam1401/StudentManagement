@@ -33,7 +33,7 @@ public class LoginController implements ActionListener {
                 loginView.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(new JFrame(),
-                        "Accounts or passwords are incorrect",
+                        "Tài khoản hoặc mật khẩu không chính xác",
                         "Login unsuccessful",
                         JOptionPane.ERROR_MESSAGE);
             }
