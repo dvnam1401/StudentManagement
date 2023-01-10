@@ -95,7 +95,7 @@ public class Student implements Comparable<Student>, Serializable {
                 + className + ", averageGrade=" + averageGrade + "]";
     }
 
-    public String getInfo() {
+    public String getInform() {
         return this.code + "," + this.fullName + "," + this.birthYear + "," + this.className + "," + this.sex + "," + this.averageGrade;
     }
 }

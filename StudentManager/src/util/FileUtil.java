@@ -14,7 +14,7 @@ public class FileUtil {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
             for (Student student :
                     studentList) {
-                bufferedWriter.write(student.getInfo());
+                bufferedWriter.write(student.getInform());
                 bufferedWriter.newLine();
             }
             bufferedWriter.close();
