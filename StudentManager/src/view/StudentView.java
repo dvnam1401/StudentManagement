@@ -331,6 +331,7 @@ public class StudentView extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        table_Search.setEnabled(false);
     }
     //</editor-fold>
 
@@ -369,10 +370,10 @@ public class StudentView extends JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void showMessagePLAIN(String message, String title) {
+    private void showMessagePLAIN(String message) {
         JOptionPane.showMessageDialog(this,
                 message,
-                title,
+                "Notification",
                 JOptionPane.PLAIN_MESSAGE);
     }
 
@@ -400,7 +401,7 @@ public class StudentView extends JFrame {
                     JOptionPane.YES_NO_OPTION);
             if (choose == JOptionPane.YES_OPTION) {
                 this.studentService.deleteId(student.getCode());
-                this.loadingTable(table_thongTin);
+                this.loadAndClear(null, table_thongTin);
                 this.updateStudent();
                 this.displayTable(student, table_thongTin);
                 this.clearInput();
@@ -532,22 +533,7 @@ public class StudentView extends JFrame {
         this.textField_diemTB.setText(student.getAverageGrade() + "");
     }
 
-    private void clearTable(JTable table) {
-        while (true) {
-            DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
-            int row = modelTable.getRowCount();
-            if (row == 0) {
-                break;
-            } else {
-                try {
-                    modelTable.removeRow(0);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
-        }
-    }
-
+    // hiển thị thông tin bảng
     private void displayTable(Student student, JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.addRow(new Object[]{student.getCode() + "",
@@ -556,27 +542,44 @@ public class StudentView extends JFrame {
                 student.getAverageGrade()});
     }
 
-    // tải lại dữ liệu table
-    private void loadingTable(JTable table) {
-        while (true) {
-            DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
-            int row = modelTable.getRowCount();
-            if (row == 0) {
-                break;
-            } else {
-                try {
-                    modelTable.removeRow(0);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
-        }
-        for (Student student : StudentService.studentList) {
-            this.displayTable(student, table);
-        }
-    }
+//        private void loadingTable(JTable table) {
+//        while (true) {
+//            DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
+//            int row = modelTable.getRowCount();
+//            if (row == 0) {
+//                break;
+//            } else {
+//                try {
+//                    modelTable.removeRow(0);
+//                } catch (Exception exception) {
+//                    exception.printStackTrace();
+//                }
+//            }
+//        }
+//        for (Student student : StudentService.studentList) {
+//            this.displayTable(student, table);
+//        }
+//    }
+//    private void clearInput(JTable table) {
+//        while (true) {
+//            DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
+//            int row = modelTable.getRowCount();
+//            if (row == 0) {
+//                break;
+//            } else {
+//                try {
+//                    modelTable.removeRow(0);
+//                } catch (Exception exception) {
+//                    exception.printStackTrace();
+//                }
+//            }
+//        }
+//    }
 
-    private void loadingTable(Student students, JTable table) {
+    // tải lại dữ liệu table
+    // xóa thông tin ô nhập
+    private void loadAndClear(Student students, JTable table) {
+        // xóa tất cả dữ liệu ra khỏi table
         while (true) {
             DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
             int row = modelTable.getRowCount();
@@ -590,7 +593,14 @@ public class StudentView extends JFrame {
                 }
             }
         }
-        this.displayTable(students, table);
+        // cập nhật lại table
+        if (students == null) {
+            for (Student student : StudentService.studentList) {
+                this.displayTable(student, table);
+            }
+        } else {
+            this.displayTable(students, table);
+        }
     }
 
     // cập nhật lại sinh viên
@@ -612,15 +622,18 @@ public class StudentView extends JFrame {
 
     // xóa sinh viên
     public void deleteStudent() {
-        DefaultTableModel modelTable = (DefaultTableModel) table_thongTin.getModel();
+        DefaultTableModel modelTableThongTin = (DefaultTableModel) table_thongTin.getModel();
+        DefaultTableModel modelTableSearch = (DefaultTableModel) table_Search.getModel();
         int row = table_thongTin.getSelectedRow();
         int choose = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa sinh viên này không?",
                 "Cảnh báo", JOptionPane.YES_NO_OPTION);
         if (choose == JOptionPane.YES_OPTION) {
             Student student = fillStudentFromSelectedRow();
             this.studentService.deleteStudent(student);
-            modelTable.removeRow(row);
+            modelTableThongTin.removeRow(row);
+            modelTableSearch.removeRow(row);
         }
+
     }
 
     // tìm kiếm sinh viên
@@ -630,13 +643,11 @@ public class StudentView extends JFrame {
             String nameClass = this.textField_ClassSearch.getText();
             if ("".equals(nameClass) && this.studentService.checkID(idSearch)) {
                 Student student = this.studentService.searchId(idSearch);
-                this.loadingTable(student, table_Search);
+                this.loadAndClear(student, table_Search);
             } else if (this.studentService.searchIdClass(nameClass, idSearch)) {
-                showMessagePLAIN("Sinh viên có tồn tại.",
-                        "Notification");
+                showMessagePLAIN("Sinh viên có tồn tại.");
             } else {
-                showMessagePLAIN("Sinh viên không tồn tại.",
-                        "Notification");
+                showMessagePLAIN("Sinh viên không tồn tại.");
             }
         } catch (Exception exception) {
             showMessageWARNING("Không điền đủ thông tin.",
@@ -694,7 +705,7 @@ public class StudentView extends JFrame {
             File file = fileChooser.getSelectedFile();
             this.path = file.getAbsolutePath();
             StudentService.studentList = FileUtil.readFile(path);
-            this.loadingTable(table_thongTin);
+            this.loadAndClear(null, table_thongTin);
         }
         this.btnXoa.setEnabled(true);
         this.btnUpdate.setEnabled(true);
@@ -719,12 +730,13 @@ public class StudentView extends JFrame {
         try {
             if (this.studentService.deleteStudent(nameClass)) {
                 showMessageINFOMATION();
+                this.loadAndClear(null, table_thongTin);
+//                this.clearInput(table_Search);
+            this.loadAndClear(null, table_Search);
             } else {
                 showMessageWARNING("Không tìm thấy lớp chỉ định",
                         "Thông báo");
             }
-            this.loadingTable(table_thongTin);
-            this.clearTable(table_Search);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -745,8 +757,9 @@ public class StudentView extends JFrame {
                 showMessageWARNING("Sinh viên không tồn tại.",
                         "Thông báo");
             }
-            this.loadingTable(table_thongTin);
-            this.clearTable(table_Search);
+            this.loadAndClear(null, table_thongTin);
+            this.loadAndClear(null, table_Search);
+//            this.clearInput(table_Search);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
